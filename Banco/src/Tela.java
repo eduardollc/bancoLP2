@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  *
  * @author rentt
  */
-public class TelaPrincipal extends javax.swing.JFrame {
+public class Tela extends javax.swing.JFrame {
 
     // Conta
     Conta conta = new Conta("", "", 0.0);
@@ -20,12 +20,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
     //Conta poupança
     private ContaPoupanca contaPoupanca;
 
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaPrincipal.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Tela.class.getName());
 
     /**
      * Creates new form TelaPrincipal
      */
-    public TelaPrincipal() {
+    public Tela() {
         initComponents();
     }
 
@@ -55,6 +55,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jButton_AplicarRendimento = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jLabel_SaldoCP = new javax.swing.JLabel();
+        jButton_Transferir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,6 +71,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel3.setText("Agência");
 
         jTextField_NumeroConta.addActionListener(this::jTextField_NumeroContaActionPerformed);
+
+        jTextField_Agencia.addActionListener(this::jTextField_AgenciaActionPerformed);
 
         jButton_Acessar.setText("Acessar");
         jButton_Acessar.addActionListener(this::jButton_AcessarActionPerformed);
@@ -122,6 +125,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel_SaldoCC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel_SaldoCC.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_SaldoCC.setText("R$ 0.00");
+        jLabel_SaldoCC.setEnabled(false);
 
         jCheckBox_CC.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jCheckBox_CC.setForeground(new java.awt.Color(255, 255, 255));
@@ -151,6 +155,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel_SaldoCP.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel_SaldoCP.setForeground(new java.awt.Color(255, 255, 255));
         jLabel_SaldoCP.setText("R$ 0.00");
+        jLabel_SaldoCP.setEnabled(false);
+
+        jButton_Transferir.setText("Transferir");
+        jButton_Transferir.setEnabled(false);
+        jButton_Transferir.addActionListener(this::jButton_TransferirActionPerformed);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -160,10 +169,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addGap(53, 53, 53)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jCheckBox_CC)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jCheckBox_CP)
-                        .addGap(59, 59, 59))
+                        .addComponent(jButton_Transferir)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -179,7 +186,12 @@ public class TelaPrincipal extends javax.swing.JFrame {
                         .addComponent(jButton_Sacar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton_AplicarRendimento)
-                        .addContainerGap(36, Short.MAX_VALUE))))
+                        .addContainerGap(36, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jCheckBox_CC)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jCheckBox_CP)
+                        .addGap(77, 77, 77))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,7 +211,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jButton_Depositar)
                     .addComponent(jButton_Sacar)
                     .addComponent(jButton_AplicarRendimento))
-                .addGap(111, 111, 111))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton_Transferir)
+                .addGap(82, 82, 82))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -226,22 +240,36 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     private void jButton_AcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AcessarActionPerformed
         // TODO add your handling code here:
-        conta.setNumeroConta(jTextField_NumeroConta.getText());
-        conta.setAgencia(jTextField_Agencia.getText());
 
-        contaCorrente = new ContaCorrente(
-                jTextField_NumeroConta.getText(),
-                jTextField_Agencia.getText(),
-                0.00
-        );
+        try {
 
-        contaPoupanca = new ContaPoupanca(
-                jTextField_NumeroConta.getText(),
-                jTextField_Agencia.getText(),
-                0.00
-        );
+            String numContaString = jTextField_NumeroConta.getText();
+            int numContaInt = Integer.parseInt(numContaString);
 
-        JOptionPane.showMessageDialog(null, conta.toString());
+            String agenciaString = jTextField_Agencia.getText();
+            int agenciaInt = Integer.parseInt(agenciaString);
+
+            conta.setNumeroConta(jTextField_NumeroConta.getText());
+            conta.setAgencia(jTextField_Agencia.getText());
+
+            contaCorrente = new ContaCorrente(
+                    jTextField_NumeroConta.getText(),
+                    jTextField_Agencia.getText(),
+                    0.00
+            );
+
+            contaPoupanca = new ContaPoupanca(
+                    jTextField_NumeroConta.getText(),
+                    jTextField_Agencia.getText(),
+                    0.00
+            );
+
+            JOptionPane.showMessageDialog(null, conta.toString());
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Erro! Digite apenas números na conta e na agência.");
+        }
+
 
     }//GEN-LAST:event_jButton_AcessarActionPerformed
 
@@ -249,10 +277,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (jCheckBox_CC.isSelected()) {
+            jButton_Transferir.setEnabled(true);
+            jLabel_SaldoCC.setEnabled(true);
             jButton_Depositar.setEnabled(true);
             jButton_Sacar.setEnabled(true);
             jCheckBox_CP.setEnabled(false);
         } else {
+            jButton_Transferir.setEnabled(false);
+            jLabel_SaldoCC.setEnabled(false);
             jButton_Depositar.setEnabled(false);
             jButton_Sacar.setEnabled(false);
             jCheckBox_CP.setEnabled(true);
@@ -263,11 +295,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         if (jCheckBox_CP.isSelected()) {
+            jButton_Transferir.setEnabled(true);
+            jLabel_SaldoCP.setEnabled(true);
             jButton_Depositar.setEnabled(true);
             jButton_Sacar.setEnabled(true);
             jButton_AplicarRendimento.setEnabled(true);
             jCheckBox_CC.setEnabled(false);
         } else {
+            jButton_Transferir.setEnabled(false);
+            jLabel_SaldoCP.setEnabled(false);
             jButton_Depositar.setEnabled(false);
             jButton_Sacar.setEnabled(false);
             jButton_AplicarRendimento.setEnabled(false);
@@ -278,53 +314,168 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jButton_DepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DepositarActionPerformed
         // TODO add your handling code here:
 
-        if (jCheckBox_CC.isSelected()) {
+        try {
+            if (jCheckBox_CC.isSelected()) {
 
-            String valorDepositoCCString = JOptionPane.showInputDialog(null, "Valor: ");
-            Double valorDepositoCC = Double.parseDouble(valorDepositoCCString);
+                if (contaCorrente == null) {
+                    JOptionPane.showMessageDialog(null, "Erro! Acesse a conta.");
+                    return;
+                }
 
-            contaCorrente.depositar(valorDepositoCC);
-            jLabel_SaldoCC.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
-            JOptionPane.showMessageDialog(null, "Sucesso");
-        } else {
+                String valorDepositoCCString = JOptionPane.showInputDialog(null, "Valor:");
 
-            String valorDepositoCPString = JOptionPane.showInputDialog(null, "Valor: ");
-            Double valorDepositoCP = Double.parseDouble(valorDepositoCPString);
+                if (valorDepositoCCString == null) {
+                    return;
+                }
 
-            contaPoupanca.depositar(valorDepositoCP);
-            jLabel_SaldoCP.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
-            JOptionPane.showMessageDialog(null, "Sucesso");
+                Double valorDepositoCC = Double.parseDouble(valorDepositoCCString);
+
+                contaCorrente.depositar(valorDepositoCC);
+
+                jLabel_SaldoCC.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
+
+            } else {
+
+                if (contaPoupanca == null) {
+                    JOptionPane.showMessageDialog(null, "Erro! Acesse a conta.");
+                    return;
+                }
+
+                String valorDepositoCPString = JOptionPane.showInputDialog(null, "Valor:");
+
+                if (valorDepositoCPString == null) {
+                    return;
+                }
+
+                Double valorDepositoCP = Double.parseDouble(valorDepositoCPString);
+
+                contaPoupanca.depositar(valorDepositoCP);
+
+                jLabel_SaldoCP.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Erro! Digite um valor numérico válido.");
         }
 
     }//GEN-LAST:event_jButton_DepositarActionPerformed
 
     private void jButton_SacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_SacarActionPerformed
         // TODO add your handling code here:
-        if (jCheckBox_CC.isSelected()) {
 
-            String valorDepositoCCString = JOptionPane.showInputDialog(null, "Valor: ");
-            Double valorDepositoCC = Double.parseDouble(valorDepositoCCString);
+        try {
 
-            contaCorrente.sacar(valorDepositoCC);
-            jLabel_SaldoCC.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
-            JOptionPane.showMessageDialog(null, "Sucesso");
-        } else {
+            if (contaCorrente == null) {
+                JOptionPane.showMessageDialog(null, "Erro! Acesse a conta.");
+                return;
+            }
 
-            String valorDepositoCPString = JOptionPane.showInputDialog(null, "Valor: ");
-            Double valorDepositoCP = Double.parseDouble(valorDepositoCPString);
+            if (jCheckBox_CC.isSelected()) {
 
-            contaPoupanca.sacar(valorDepositoCP);
-            jLabel_SaldoCP.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
-            JOptionPane.showMessageDialog(null, "Sucesso");
+                String valorSaqueCCString = JOptionPane.showInputDialog(null, "Valor: ");
+
+                if (valorSaqueCCString == null) {
+                    return;
+                }
+
+                Double valorSaqueCC = Double.parseDouble(valorSaqueCCString);
+
+                contaCorrente.sacar(valorSaqueCC);
+                jLabel_SaldoCC.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
+
+            } else {
+
+                if (contaPoupanca == null) {
+                    JOptionPane.showMessageDialog(null, "Erro! Acesse a conta.");
+                    return;
+                }
+
+                String valorSaqueCPString = JOptionPane.showInputDialog(null, "Valor: ");
+
+                if (valorSaqueCPString == null) {
+                    return;
+                }
+
+                Double valorSaqueCP = Double.parseDouble(valorSaqueCPString);
+
+                contaPoupanca.sacar(valorSaqueCP);
+                jLabel_SaldoCP.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
+
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Erro! Digite um valor numérico válido.");
         }
+
     }//GEN-LAST:event_jButton_SacarActionPerformed
 
     private void jButton_AplicarRendimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AplicarRendimentoActionPerformed
         // TODO add your handling code here:
+
+        if (contaPoupanca == null) {
+            JOptionPane.showMessageDialog(null, "Erro! Acesse a conta.");
+            return;
+        }
+
         contaPoupanca.rendimento();
         jLabel_SaldoCP.setText(String.format("R$ %.2f", contaPoupanca.obterSaldo()));
-        
+
     }//GEN-LAST:event_jButton_AplicarRendimentoActionPerformed
+
+    private void jTextField_AgenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_AgenciaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_AgenciaActionPerformed
+
+    private void jButton_TransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_TransferirActionPerformed
+        // TODO add your handling code here:
+        try {
+
+            if (jCheckBox_CC.isSelected()) {
+
+                if (contaCorrente == null) {
+                    JOptionPane.showMessageDialog(null, "Erro! Acesse a conta.");
+                    return;
+                }
+
+                String valorString = JOptionPane.showInputDialog(null, "Tranferir valor para conta poupança \nValor:");
+                
+                if (valorString == null) {
+                    return;
+                }
+                
+                Double valor = Double.parseDouble(valorString);
+
+                contaCorrente.transferir(contaPoupanca, valor);
+
+                jLabel_SaldoCC.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
+                jLabel_SaldoCP.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
+
+            } else {
+
+                if (contaPoupanca == null) {
+                    JOptionPane.showMessageDialog(null, "Erro! Acesse a conta.");
+                    return;
+                }
+
+                String valorString = JOptionPane.showInputDialog(null, "Tranferir valor para conta corrente \nValor:");
+                
+                if (valorString == null) {
+                    return;
+                }
+                
+                Double valor = Double.parseDouble(valorString);
+
+                contaPoupanca.transferir(contaCorrente, valor);
+
+                jLabel_SaldoCP.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
+                jLabel_SaldoCC.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
+
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro! Digite um valor numérico válido.");
+        }
+    }//GEN-LAST:event_jButton_TransferirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -348,7 +499,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new TelaPrincipal().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new Tela().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -356,6 +507,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton_AplicarRendimento;
     private javax.swing.JButton jButton_Depositar;
     private javax.swing.JButton jButton_Sacar;
+    private javax.swing.JButton jButton_Transferir;
     private javax.swing.JCheckBox jCheckBox_CC;
     private javax.swing.JCheckBox jCheckBox_CP;
     private javax.swing.JLabel jLabel1;
