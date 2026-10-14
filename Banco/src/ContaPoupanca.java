@@ -1,16 +1,52 @@
-
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
 public class ContaPoupanca extends Conta {
+    
+    private Double saldo;
+    private LocalDate dataUltimoRendimento;
 
-    public ContaPoupanca(String numeroConta, String agencia, Double saldo) {
-        super(numeroConta, agencia, saldo);
+    public ContaPoupanca(String numeroConta, String agencia, LocalDate dataConta, LocalDate dataUltimoRendimento, Double saldo) {
+        super(numeroConta, agencia, dataConta);
+        this.saldo = saldo;
+        this.dataUltimoRendimento = getDataConta();
     }
 
-    public void rendimento() {
+    public Double getSaldo() {
+        return saldo;
+    }
 
-        double porcentagem = 0.0105;
-        setSaldo(getSaldo() + (getSaldo() * porcentagem));
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
+    }
+
+    public LocalDate getDataUltimoRendimento() {
+        return dataUltimoRendimento;
+    }
+
+    public void setDataUltimoRendimento(LocalDate dataUltimoRendimento) {
+        this.dataUltimoRendimento = dataUltimoRendimento;
+    }
+   
+    public void aplicarJuros() {
+        
+        LocalDate dataPresente = LocalDate.now();
+        long dias = ChronoUnit.DAYS.between(dataPresente, dataUltimoRendimento);
+        long diasRestantes = 30 - dias;
+        
+        if(saldo == 0) {
+            JOptionPane.showMessageDialog(null, "Saldo insuficiente");
+            return;
+        }
+        
+        if (dias < 30) {
+            JOptionPane.showMessageDialog(null, "Faltam " + diasRestantes + " para o saldo receber o rendimento");
+            return;
+        }
+
+        double rendimento =  saldo * 0.015;
+        saldo += rendimento;
 
     }
 
@@ -19,7 +55,7 @@ public class ContaPoupanca extends Conta {
         if (valor <= 0) {
             JOptionPane.showMessageDialog(null, "Erro, não é possivel depositar um valor abaixo ou igual a 0 !!!");
         } else {
-            setSaldo(getSaldo() + valor);
+            saldo += valor;
             JOptionPane.showMessageDialog(null, "Sucesso");
         }
 
@@ -27,28 +63,28 @@ public class ContaPoupanca extends Conta {
 
     public void sacar(Double valor) {
 
-        if (valor > getSaldo()) {
+        if (valor > saldo) {
             JOptionPane.showMessageDialog(null, "Erro, não é possível sacar um valor maior que o saldo.");
         } else if (valor <= 0) {
             JOptionPane.showMessageDialog(null, "Erro, não é possível sacar um valor menor ou igual a 0.");
         } else {
-            setSaldo(getSaldo() - valor);
+            saldo -= valor;
             JOptionPane.showMessageDialog(null, "Sucesso");
         }
 
     }
 
-    public void transferir(ContaCorrente conta, Double valor) {
+    public void transferir(ContaCorrente contaCorrente, Double valor) {
 
         if (valor <= 0) {
             JOptionPane.showMessageDialog(null, "Digite um valor maior que zero.");
             return;
-        } else if (valor > getSaldo()) {
+        } else if (valor > saldo) {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente.");
             return;
         } else {
-            setSaldo(getSaldo() - valor);
-            conta.setSaldo(conta.getSaldo() + valor);
+            saldo -= valor;
+            contaCorrente.setSaldo(contaCorrente.getSaldo() + valor);
 
             JOptionPane.showMessageDialog(null, "Sucesso");
         }
@@ -57,7 +93,7 @@ public class ContaPoupanca extends Conta {
 
     public Double obterSaldo() {
 
-        return getSaldo();
+        return saldo;
 
     }
 
