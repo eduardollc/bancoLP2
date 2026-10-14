@@ -467,8 +467,8 @@ public class Tela extends javax.swing.JFrame {
 
                 contaPoupanca.transferir(contaCorrente, valor);
 
-                jLabel_SaldoCP.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
-                jLabel_SaldoCC.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
+                jLabel_SaldoCP.setText(String.format("R$ %.2f", contaPoupanca.getSaldo()));
+                jLabel_SaldoCC.setText(String.format("R$ %.2f", contaCorrente.getSaldo()));
 
             }
 
