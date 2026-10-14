@@ -1,15 +1,25 @@
+import java.time.LocalDate;
+
 public class Conta {
     
     private String numeroConta;
     private String agencia;
-    private Double saldo;
+    private LocalDate dataConta; 
 
-    public Conta(String numeroConta, String agencia, Double saldo) {
+    public Conta(String numeroConta, String agencia, LocalDate dataConta) {
         this.numeroConta = numeroConta;
         this.agencia = agencia;
-        this.saldo = 0.00;
+        this.dataConta = dataConta;
     }
 
+    public LocalDate getDataConta() {
+        return dataConta;
+    }
+
+    public void setDataConta(LocalDate dataConta) {
+        this.dataConta = dataConta;
+    }
+   
     public String getNumeroConta() {
         return numeroConta;
     }
@@ -25,14 +35,8 @@ public class Conta {
     public void setAgencia(String agencia) {
         this.agencia = agencia;
     }
-
-    public Double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
+    
+    
  
     @Override
     public String toString() {

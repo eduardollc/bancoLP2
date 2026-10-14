@@ -1,16 +1,17 @@
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import javax.swing.JOptionPane;
 
 public class ContaPoupanca extends Conta {
-    
+
     private Double saldo;
     private LocalDate dataUltimoRendimento;
 
     public ContaPoupanca(String numeroConta, String agencia, LocalDate dataConta, LocalDate dataUltimoRendimento, Double saldo) {
         super(numeroConta, agencia, dataConta);
         this.saldo = saldo;
-        this.dataUltimoRendimento = getDataConta();
+        this.dataUltimoRendimento = dataUltimoRendimento;
     }
 
     public Double getSaldo() {
@@ -28,25 +29,30 @@ public class ContaPoupanca extends Conta {
     public void setDataUltimoRendimento(LocalDate dataUltimoRendimento) {
         this.dataUltimoRendimento = dataUltimoRendimento;
     }
-   
+
     public void aplicarJuros() {
-        
+
         LocalDate dataPresente = LocalDate.now();
-        long dias = ChronoUnit.DAYS.between(dataPresente, dataUltimoRendimento);
-        long diasRestantes = 30 - dias;
-        
-        if(saldo == 0) {
+        long dias = ChronoUnit.DAYS.between(dataUltimoRendimento, dataPresente);
+
+        if (saldo == 0) {
             JOptionPane.showMessageDialog(null, "Saldo insuficiente");
             return;
         }
-        
-        if (dias < 30) {
+
+        long periodos = dias / 30;
+
+        if (periodos == 0) {
+            long diasRestantes = 30 - dias;
             JOptionPane.showMessageDialog(null, "Faltam " + diasRestantes + " para o saldo receber o rendimento");
             return;
         }
 
-        double rendimento =  saldo * 0.015;
-        saldo += rendimento;
+        for (int i = 0; i < periodos; i++) {
+            saldo += saldo * 0.015;
+        }
+
+        dataUltimoRendimento = dataPresente;
 
     }
 
