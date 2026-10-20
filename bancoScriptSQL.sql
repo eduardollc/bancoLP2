@@ -6,7 +6,8 @@ create table conta (
 idConta int auto_increment primary key,
 numeroConta char(6) not null unique,
 agencia char(4) not null,
-dataConta date
+dataConta date,
+senha char(20) not null
 );
 
 create table contaCorrente(
