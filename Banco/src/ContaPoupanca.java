@@ -8,8 +8,8 @@ public class ContaPoupanca extends Conta {
     private Double saldo;
     private LocalDate dataUltimoRendimento;
 
-    public ContaPoupanca(String numeroConta, String agencia, LocalDate dataConta, LocalDate dataUltimoRendimento, Double saldo) {
-        super(numeroConta, agencia, dataConta);
+    public ContaPoupanca(String numeroConta, String agencia, LocalDate dataConta, LocalDate dataUltimoRendimento, Double saldo, String senha) {
+        super(numeroConta, agencia, dataConta, senha);
         this.saldo = saldo;
         this.dataUltimoRendimento = dataUltimoRendimento;
     }
