@@ -1,3 +1,5 @@
+package model;
+
 
 import java.time.LocalDate;
 import javax.swing.JOptionPane;
@@ -6,8 +8,8 @@ public class ContaCorrente extends Conta {
     
     private Double saldo;
 
-    public ContaCorrente(String numeroConta, String agencia, LocalDate dataConta, Double saldo, String senha) {
-        super(numeroConta, agencia, dataConta, senha);
+    public ContaCorrente(String numeroConta, String agencia, Double saldo, String senha) {
+        super(numeroConta, agencia, senha);
         this.saldo = saldo;
     }
 
@@ -65,5 +67,12 @@ public class ContaCorrente extends Conta {
 
         return saldo;
 
+    }
+    
+    @Override
+    public void mostrarDados()
+    {
+        super.mostrarDados();
+        JOptionPane.showMessageDialog(null,"Tipo de conta: Corrente");
     }
 }

@@ -1,3 +1,5 @@
+package model;
+
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -8,10 +10,11 @@ public class ContaPoupanca extends Conta {
     private Double saldo;
     private LocalDate dataUltimoRendimento;
 
-    public ContaPoupanca(String numeroConta, String agencia, LocalDate dataConta, LocalDate dataUltimoRendimento, Double saldo, String senha) {
-        super(numeroConta, agencia, dataConta, senha);
+    public ContaPoupanca(String numeroConta, String agencia, LocalDate dataUltimoRendimento, Double saldo, String senha) {
+        super(numeroConta, agencia, senha);
         this.saldo = saldo;
-        this.dataUltimoRendimento = dataUltimoRendimento;
+        //Começa a contar apartir da data de abertura
+        this.dataUltimoRendimento = getDataAberturaConta();
     }
 
     public Double getSaldo() {
@@ -101,6 +104,13 @@ public class ContaPoupanca extends Conta {
 
         return saldo;
 
+    }
+    
+    @Override
+    public void mostrarDados()
+    {
+        super.mostrarDados();
+        JOptionPane.showMessageDialog(null,"Tipo de conta: Poupança");
     }
 
 }

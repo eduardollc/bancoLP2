@@ -1,24 +1,23 @@
-drop database if exists banco;
-create database banco;
-use banco;
+DROP DATABASE IF EXISTS banco;
+CREATE DATABASE banco;
+USE banco;
 
-create table conta (
-idConta int auto_increment primary key,
-numeroConta char(6) not null unique,
-agencia char(4) not null,
-dataConta date,
-senha char(20) not null
+CREATE TABLE conta (
+    numeroConta CHAR(6) PRIMARY KEY,
+    agencia CHAR(4) NOT NULL,
+    dataContaAbertura DATE NOT NULL,
+    senha CHAR(20) NOT NULL
 );
 
-create table contaCorrente(
-idConta int primary key,
-saldo decimal (10,2) not null default 0.00,
-foreign key (idConta) references Conta(idConta)
+CREATE TABLE contaCorrente (
+    numeroConta CHAR(6) PRIMARY KEY,
+    saldo DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    FOREIGN KEY (numeroConta) REFERENCES conta(numeroConta)
 );
 
-create table contaPoupanca(
-idConta int primary key,
-saldo decimal (10,2) not null default 0.00,
-dataUltimoRendimento date,
-foreign key (idConta) references Conta(idConta)
+CREATE TABLE contaPoupanca (
+    numeroConta CHAR(6) PRIMARY KEY,
+    saldo DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+    dataUltimoRendimento DATE,
+    FOREIGN KEY (numeroConta) REFERENCES conta(numeroConta)
 );

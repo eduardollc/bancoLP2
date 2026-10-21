@@ -1,27 +1,31 @@
+package model;
+
 import java.time.LocalDate;
+import javax.swing.JOptionPane;
 
 public class Conta {
     
     private String numeroConta;
     private String agencia;
-    private LocalDate dataConta; 
+    private LocalDate dataAberturaConta; 
     private String senha;
 
-    public Conta(String numeroConta, String agencia, LocalDate dataConta, String senha) {
+    public Conta(String numeroConta, String agencia, String senha) {
         this.numeroConta = numeroConta;
         this.agencia = agencia;
-        this.dataConta = dataConta;
+        //Data atual quando cria conta
+        this.dataAberturaConta = LocalDate.now();
         this.senha = senha;
     }
 
-    public LocalDate getDataConta() {
-        return dataConta;
+    public LocalDate getDataAberturaConta() {
+        return dataAberturaConta;
     }
 
-    public void setDataConta(LocalDate dataConta) {
-        this.dataConta = dataConta;
+    public void setDataAberturaConta(LocalDate dataAberturaConta) {
+        this.dataAberturaConta = dataAberturaConta;
     }
-   
+
     public String getNumeroConta() {
         return numeroConta;
     }
@@ -45,15 +49,12 @@ public class Conta {
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    
-    
- 
-    @Override
-    public String toString() {
-        return String.format("%s \n%s: %s \n%s: %s",
-                "Sucesso ao acessar conta",
-                "Número da conta", numeroConta,
-                "Agência", agencia);
+
+    public void mostrarDados() {
+        JOptionPane.showMessageDialog(null,
+                "Agencia " + agencia + 
+                "\n" + " Numero da conta " + numeroConta + 
+                "\n" + "Abertura " + dataAberturaConta);
     }
     
 }
