@@ -1,24 +1,35 @@
 package view;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+import model.Conta;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author rentt
  */
 public class TelaLogin extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(TelaLogin.class.getName());
 
     /**
      * Creates new form TelaLogin
      */
+    //Construtor para receber as contas criadas na TelaCadastro
+    private List<Conta> contas;
+
+    public TelaLogin(List<Conta> contas) {
+        initComponents();
+        this.contas = contas;
+    }
+
     public TelaLogin() {
         initComponents();
-        
+        //Centraliza a tela no meio
         setLocationRelativeTo(null);
         jLabelCriarConta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
     }
@@ -160,14 +171,57 @@ public class TelaLogin extends javax.swing.JFrame {
 
     private void jButton_AcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AcessarActionPerformed
         // TODO add your handling code here:
+
+        try {
+
+            String numeroConta = jTextField_ContaLogin.getText();
+            String agencia = jTextField_AgenciaLogin.getText();
+            String senha = jTextField_SenhaLogin.getText();
+
+            if (numeroConta.isEmpty() || agencia.isEmpty() || senha.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
+                return;
+            }
+
+            Integer.parseInt(numeroConta);
+            Integer.parseInt(agencia);
+
+            //Percorrer a lista de contas
+            for (Conta conta : contas) {
+
+                if (conta.getNumeroConta().equals(numeroConta)
+                        && conta.getSenha().equals(senha)) {
+
+                    JOptionPane.showMessageDialog(null, "Acesso à conta realizado.");
+
+                    TelaPrincipal telaPrincipal = new TelaPrincipal(contas);
+
+                    telaPrincipal.atualizarDados(conta);
+                    telaPrincipal.verificarContas(numeroConta);
+                    telaPrincipal.setLocationRelativeTo(null);
+                    telaPrincipal.setVisible(true);
+
+                    this.dispose();
+                    return;
+                }
+            }
+
+            JOptionPane.showMessageDialog(null,"Conta ou senha incorreta.");
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Erro, o número da conta e a agência devem conter apenas números.");
+        }
+
+
     }//GEN-LAST:event_jButton_AcessarActionPerformed
 
     private void jLabelCriarContaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCriarContaMouseClicked
         // TODO add your handling code here:
         TelaCadastro telaCadastro = new TelaCadastro();
+        //Centraliza a tela no meio
         telaCadastro.setLocationRelativeTo(null);
         telaCadastro.setVisible(true);
-        
+
         this.dispose();
     }//GEN-LAST:event_jLabelCriarContaMouseClicked
 

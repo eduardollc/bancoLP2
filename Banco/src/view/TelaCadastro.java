@@ -2,6 +2,7 @@ package view;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import model.Conta;
 import model.ContaCorrente;
 import model.ContaPoupanca;
@@ -21,7 +22,6 @@ public class TelaCadastro extends javax.swing.JFrame {
     /**
      * Creates new form TelaCadastro
      */
-    
     //Contas
     private List<Conta> contas = new ArrayList<>();
 
@@ -46,10 +46,10 @@ public class TelaCadastro extends javax.swing.JFrame {
         jTextField_AgenciaCadastro = new javax.swing.JTextField();
         jButton_Cadastrar = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jRadioButton_ContaCorrente = new javax.swing.JRadioButton();
-        jRadioButton_ContaPoupanca = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
         jTextField_SenhaCadastro = new javax.swing.JTextField();
+        jCheckBox_CadastroCC = new javax.swing.JCheckBox();
+        jCheckBox_CadastroCP = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,8 +66,6 @@ public class TelaCadastro extends javax.swing.JFrame {
 
         jTextField_ContaCadastro.addActionListener(this::jTextField_ContaCadastroActionPerformed);
 
-        jTextField_AgenciaCadastro.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-
         jButton_Cadastrar.setBackground(new java.awt.Color(0, 0, 0));
         jButton_Cadastrar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton_Cadastrar.setForeground(new java.awt.Color(255, 255, 255));
@@ -77,28 +75,32 @@ public class TelaCadastro extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel4.setText("Escolha o tipo de conta");
 
-        jRadioButton_ContaCorrente.setText("Conta corrente");
-        jRadioButton_ContaCorrente.addActionListener(this::jRadioButton_ContaCorrenteActionPerformed);
-
-        jRadioButton_ContaPoupanca.setText("Conta poupança");
-
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel5.setText("Senha");
 
         jTextField_SenhaCadastro.addActionListener(this::jTextField_SenhaCadastroActionPerformed);
+
+        jCheckBox_CadastroCC.setText("Conta corrente");
+
+        jCheckBox_CadastroCP.setText("Conta poupança");
+        jCheckBox_CadastroCP.addActionListener(this::jCheckBox_CadastroCPActionPerformed);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(179, 179, 179)
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(80, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jRadioButton_ContaCorrente)
+                        .addComponent(jCheckBox_CadastroCC)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jRadioButton_ContaPoupanca))
+                        .addComponent(jCheckBox_CadastroCP))
+                    .addComponent(jLabel5)
                     .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(28, 28, 28)
@@ -110,10 +112,6 @@ public class TelaCadastro extends javax.swing.JFrame {
                         .addComponent(jTextField_ContaCadastro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                         .addComponent(jTextField_AgenciaCadastro, javax.swing.GroupLayout.Alignment.LEADING)))
                 .addGap(108, 108, 108))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(179, 179, 179)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,12 +130,12 @@ public class TelaCadastro extends javax.swing.JFrame {
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextField_SenhaCadastro, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(13, 13, 13)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton_ContaCorrente)
-                    .addComponent(jRadioButton_ContaPoupanca))
+                    .addComponent(jCheckBox_CadastroCC)
+                    .addComponent(jCheckBox_CadastroCP))
                 .addGap(18, 18, 18)
                 .addComponent(jButton_Cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
@@ -165,29 +163,56 @@ public class TelaCadastro extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try {
-            
-            Conta conta;
-            
+
             String numeroConta = jTextField_ContaCadastro.getText();
             String agencia = jTextField_AgenciaCadastro.getText();
             String senha = jTextField_SenhaCadastro.getText();
-            
-            if (jRadioButton_ContaCorrente.isSelected()) {
-                conta = new ContaCorrente(numeroConta, agencia, 0.0, senha);
+
+            if (numeroConta.isEmpty() || agencia.isEmpty() || senha.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Preencha todos os campos.");
+                return;
             }
-            
-        } catch (Exception e) {
+
+            Integer.parseInt(numeroConta);
+            Integer.parseInt(agencia);
+
+            if (!jCheckBox_CadastroCC.isSelected() && !jCheckBox_CadastroCP.isSelected()) {
+                JOptionPane.showMessageDialog(null, "Escolha pelo menos um tipo de conta");
+                return;
+            }
+
+            if (jCheckBox_CadastroCC.isSelected()) {
+                ContaCorrente contaCorrente = new ContaCorrente(numeroConta, agencia, 0.0, senha);
+                contas.add(contaCorrente);
+                contaCorrente.mostrarDados();
+            }
+
+            if (jCheckBox_CadastroCP.isSelected()) {
+                ContaPoupanca contaPoupanca = new ContaPoupanca(numeroConta, agencia, 0.0, senha);
+                contas.add(contaPoupanca);
+                contaPoupanca.mostrarDados();
+            }
+
+            TelaLogin telaLogin = new TelaLogin(contas);
+            telaLogin.setVisible(true);
+            //Centraliza a tela no meio
+            telaLogin.setLocationRelativeTo(null);
+            this.dispose();
+
+        } catch (NumberFormatException e) {
+
+            JOptionPane.showMessageDialog(null, "Erro, o número da conta e a agência devem conter apenas números.");
         }
 
     }//GEN-LAST:event_jButton_CadastrarActionPerformed
 
-    private void jRadioButton_ContaCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton_ContaCorrenteActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton_ContaCorrenteActionPerformed
-
     private void jTextField_SenhaCadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_SenhaCadastroActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField_SenhaCadastroActionPerformed
+
+    private void jCheckBox_CadastroCPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox_CadastroCPActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox_CadastroCPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -216,14 +241,14 @@ public class TelaCadastro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_Cadastrar;
+    private javax.swing.JCheckBox jCheckBox_CadastroCC;
+    private javax.swing.JCheckBox jCheckBox_CadastroCP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton_ContaCorrente;
-    private javax.swing.JRadioButton jRadioButton_ContaPoupanca;
     private javax.swing.JTextField jTextField_AgenciaCadastro;
     private javax.swing.JTextField jTextField_ContaCadastro;
     private javax.swing.JTextField jTextField_SenhaCadastro;

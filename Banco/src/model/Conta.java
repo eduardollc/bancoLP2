@@ -52,9 +52,10 @@ public class Conta {
 
     public void mostrarDados() {
         JOptionPane.showMessageDialog(null,
-                "Agencia " + agencia + 
-                "\n" + " Numero da conta " + numeroConta + 
-                "\n" + "Abertura " + dataAberturaConta);
+                "Sucesso ao criar conta" +
+                "\nAgencia: " + agencia + 
+                "\n" + "Numero da conta: " + numeroConta + 
+                "\n" + "Abertura: " + dataAberturaConta);
     }
     
 }

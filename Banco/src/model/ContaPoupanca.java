@@ -10,7 +10,7 @@ public class ContaPoupanca extends Conta {
     private Double saldo;
     private LocalDate dataUltimoRendimento;
 
-    public ContaPoupanca(String numeroConta, String agencia, LocalDate dataUltimoRendimento, Double saldo, String senha) {
+    public ContaPoupanca(String numeroConta, String agencia, Double saldo, String senha) {
         super(numeroConta, agencia, senha);
         this.saldo = saldo;
         //Começa a contar apartir da data de abertura
