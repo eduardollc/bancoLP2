@@ -26,6 +26,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private ContaCorrente contaCorrente;
     private ContaPoupanca contaPoupanca;
 
+    private Conta contaSelecionada;
+
     public TelaPrincipal(List<Conta> contas) {
         initComponents();
         this.contas = contas;
@@ -49,26 +51,26 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
     public void verificarContas(String numeroConta) {
 
-    contaCorrente = null;
-    contaPoupanca = null;
+        contaCorrente = null;
+        contaPoupanca = null;
 
-    for (Conta conta : contas) {
+        for (Conta conta : contas) {
 
-        if (conta.getNumeroConta().equals(numeroConta)) {
+            if (conta.getNumeroConta().equals(numeroConta)) {
 
-            if (conta instanceof ContaCorrente) {
-                contaCorrente = (ContaCorrente) conta;
-            }
+                if (conta instanceof ContaCorrente) {
+                    contaCorrente = (ContaCorrente) conta;
+                }
 
-            if (conta instanceof ContaPoupanca) {
-                contaPoupanca = (ContaPoupanca) conta;
+                if (conta instanceof ContaPoupanca) {
+                    contaPoupanca = (ContaPoupanca) conta;
+                }
             }
         }
-    }
 
-    jButton_ContaCorrente.setEnabled(contaCorrente != null);
-    jButton_ContaPoupanca.setEnabled(contaPoupanca != null);
-}
+        jButton_ContaCorrente.setEnabled(contaCorrente != null);
+        jButton_ContaPoupanca.setEnabled(contaPoupanca != null);
+    }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -270,25 +272,49 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private void jButton_ContaPoupancaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ContaPoupancaActionPerformed
         // TODO add your handling code here:
 
+        contaSelecionada = contaPoupanca;
+
         jLabel_CCeCP.setText("Conta Poupança");
+        jLabel_Saldo.setText(String.format("%.2f", contaPoupanca.getSaldo()));
 
     }//GEN-LAST:event_jButton_ContaPoupancaActionPerformed
 
     private void jButton_DepositarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_DepositarActionPerformed
         // TODO add your handling code here:
 
-        String valorString = JOptionPane.showInputDialog("Valor: ");
-        Double valor = Double.parseDouble(valorString);
-        contaCorrente.depositar(valor);
+        String valorString = JOptionPane.showInputDialog(this, "Valor:");
 
-        jLabel_Saldo.setText(valorString);
+        if (valorString == null) {
+            return;
+        }
 
+        try {
+            Double valor = Double.parseDouble(valorString);
+
+            if (contaSelecionada == contaCorrente) {
+                contaCorrente.depositar(valor);
+                jLabel_Saldo.setText(
+                        String.format("%.2f", contaCorrente.getSaldo())
+                );
+            } else if (contaSelecionada == contaPoupanca) {
+                contaPoupanca.depositar(valor);
+                jLabel_Saldo.setText(
+                        String.format("%.2f", contaPoupanca.getSaldo())
+                );
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Digite um valor válido.");
+        }
 
     }//GEN-LAST:event_jButton_DepositarActionPerformed
 
     private void jButton_ContaCorrenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ContaCorrenteActionPerformed
         // TODO add your handling code here:
+        contaSelecionada = contaCorrente;
+
         jLabel_CCeCP.setText("Conta Corrente");
+        jLabel_Saldo.setText(String.format("%.2f", contaCorrente.getSaldo()));
     }//GEN-LAST:event_jButton_ContaCorrenteActionPerformed
 
     /**

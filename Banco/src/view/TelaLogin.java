@@ -186,6 +186,11 @@ public class TelaLogin extends javax.swing.JFrame {
             Integer.parseInt(numeroConta);
             Integer.parseInt(agencia);
 
+            if (contas == null || contas.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Não existem contas cadastradas.");
+                return;
+            }
+
             //Percorrer a lista de contas
             for (Conta conta : contas) {
 
@@ -206,7 +211,7 @@ public class TelaLogin extends javax.swing.JFrame {
                 }
             }
 
-            JOptionPane.showMessageDialog(null,"Conta ou senha incorreta.");
+            JOptionPane.showMessageDialog(null, "Conta ou senha incorreta.");
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Erro, o número da conta e a agência devem conter apenas números.");
