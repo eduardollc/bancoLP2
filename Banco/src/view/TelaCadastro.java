@@ -24,6 +24,8 @@ public class TelaCadastro extends javax.swing.JFrame {
      */
     //Contas
     private List<Conta> contas = new ArrayList<>();
+    private ContaCorrente contaCorrente;
+    private ContaPoupanca contaPoupanca;
 
     public TelaCadastro() {
         initComponents();
@@ -182,13 +184,13 @@ public class TelaCadastro extends javax.swing.JFrame {
             }
 
             if (jCheckBox_CadastroCC.isSelected()) {
-                ContaCorrente contaCorrente = new ContaCorrente(numeroConta, agencia, 0.0, senha);
+                contaCorrente = new ContaCorrente(numeroConta, agencia, 0.0, senha);
                 contas.add(contaCorrente);
                 contaCorrente.mostrarDados();
             }
 
             if (jCheckBox_CadastroCP.isSelected()) {
-                ContaPoupanca contaPoupanca = new ContaPoupanca(numeroConta, agencia, 0.0, senha);
+                contaPoupanca = new ContaPoupanca(numeroConta, agencia, 0.0, senha);
                 contas.add(contaPoupanca);
                 contaPoupanca.mostrarDados();
             }
